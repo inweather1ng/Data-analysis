@@ -1,0 +1,30 @@
+import matplotlib.pyplot as plt
+
+# 1. Slide the lake data backwards by our mathematically proven delay
+
+shifted_storage = reservoir['STORAGE AF'].shift(-best_delay)
+
+
+fig, ax1 = plt.subplots(figsize=(12, 6))
+
+
+color1 = 'blue'
+ax1.set_xlabel('Date', fontsize=12)
+ax1.set_ylabel('Rainfall (Inches)', color=color1, fontsize=12)
+ax1.plot(precip['Date'], precip.iloc[:, 1], color=color1, linestyle='-') 
+ax1.tick_params(axis='y', labelcolor=color1)
+ax1.grid(True, linestyle='--', alpha=0.4)
+
+
+ax2 = ax1.twinx() 
+color2 = 'teal'
+ax2.set_ylabel('Storage (Acre-Feet)', color=color2, fontsize=12)
+# IMPORTANT: We plot the 'shifted_storage' variable here instead of the original!
+ax2.plot(reservoir['DATE'], shifted_storage, color=color2, linewidth=2)
+ax2.tick_params(axis='y', labelcolor=color2)
+
+# 3. Add titles and render
+
+plt.title(f"Rainfall vs. Folsom Lake Storage (Shifted {best_delay} Months to Show Correlation)", fontsize=14)
+fig.tight_layout()
+plt.show()
